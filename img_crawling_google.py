@@ -78,7 +78,7 @@ for image in images:
         else:
             urllib.request.urlretrieve(imgUrl, f'./imgs/{searchKey}/{searchKey}{str(count)}.jpg')
         count = count + 1
-        if count > 100:
+        if count > 500:
             break
     except Exception as e:
         #print('e : ', e)
