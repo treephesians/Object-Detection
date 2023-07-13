@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<datasets>
+  <header>
+    <nc>0</nc>
+    <date>230713 1708</date>
+    <worker>JB</worker>
+  </header>
+  <imgInfo>
+    <index>3</index>
+    <imgSize>640</imgSize>
+    <label>
+      <points>
+        <x1>0.304087</x1>
+        <y1>0.609375</y1>
+        <x2>0.137019</x2>
+        <y2>0.709135</y2>
+      </points>
+      <points>
+        <x1>0.174279</x1>
+        <y1>0.371394</y1>
+        <x2>0.103365</x2>
+        <y2>0.362981</y2>
+      </points>
+      <points>
+        <x1>0.454327</x1>
+        <y1>0.682692</y1>
+        <x2>0.259615</x2>
+        <y2>0.634615</y2>
+      </points>
+    </label>
+    <isCrowd>3</isCrowd>
+  </imgInfo>
+</datasets>
