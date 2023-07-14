@@ -21,39 +21,14 @@ import glob
 
 
 if __name__ == '__main__':
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument('--worker', type=str, help='작업자 이름')
-    #parser.add_argument('--imgSize', type=str, help='이미지 사이즈 규격')
-    #parser.add_argument('--folder_name', type=str, help='폴더 이름')
-    #opt = parser.parse_args()    
     
     dt_now = datetime.now()
 
-    #class, x1, y1, x2, y2,  
-    # coding isCrowd,date
-    #auto increase //last +1 ==  index,
-    # each insert worker,  imgsize
-    #data path
-
-    #입력값 받아서 태그에 저장하기
-
-    # path_dir = './rifle/train/'
-    # print('./server/server_datasets/')
-    # dir_list = os.listdir('./server/server_datasets')
-
-    # #load label data
-    # print(dir_list[1])
-    # file_list = os.listdir("./server/server_datasets/"+ dir_list[1]+"/")
     datasets_path = f'./data/thermal-human/fail/labels/'
     print(datasets_path)
     file_list = os.listdir(datasets_path)
 
-    #load label data
-    #print(dir_list)
-    #file_list = os.listdir(f"{datasets_path}{dir_list[1]}")
     fpath = natsort.natsorted(file_list)
-    # print(file_list)
-    #print(file_list[0]) : get each patient's first .dcm file
     print(fpath)
 
     for i in range(len(file_list)):
@@ -99,7 +74,7 @@ if __name__ == '__main__':
         
         tree = ET.ElementTree(datasets)
         
-        new_dir_path = "./server/" + dt_now.strftime('%y%m%d %H%M')
+        new_dir_path = "./xml/" + dt_now.strftime('%y%m%d%H%M')
         
         os.makedirs(new_dir_path, exist_ok=True)
         

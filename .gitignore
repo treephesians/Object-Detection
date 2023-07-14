@@ -1,3 +1,4 @@
 crawl/path.txt
 __pycache__
-data/*
+data/
+xml/

@@ -1,4 +1,4 @@
-import detectJB as Detect
+import auto_detect as Detect
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -31,6 +31,7 @@ if __name__ == "__main__":
             
         # labelImg 가 끝나면 xml file로 변환시키기
         # 아니면 labelImg 에서 바로 저장시켜도 되고ㅇㅇ
-    
+    else:
+        print("No Data")
 
     

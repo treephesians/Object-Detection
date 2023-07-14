@@ -5,16 +5,11 @@
 import subprocess
 import os
 
+
 def edit(_keyword):
 #if __name__ == "__main__":
-    # labelImg의 위치 (현재 디렉토리의 하위 폴더인 labelImg)
-    print(os.getcwd())
-    #labelimg_dir = os.path.join(os.path.dirname(
-    #    os.path.realpath(__file__)),'labelImg')
-    keyword = _keyword
+    _keyword = "thermal-human"
     labelimg_dir = os.getcwd() + "/labelImg"
-    print(labelimg_dir)
-    # 현재 작업 디렉토리를 labelImg 폴더로 변경한다
     os.chdir(labelimg_dir)
-    # labelImg.py 실행
-    subprocess.call(['python', 'labelImg.py' ])
+    print(os.getcwd())
+    subprocess.call(['python', 'labelImg.py', _keyword])

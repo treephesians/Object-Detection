@@ -9,11 +9,7 @@ import shutil
 import sys
 import webbrowser as wb
 from functools import partial
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
 
-"""
 try:
     from PyQt5.QtGui import *
     from PyQt5.QtCore import *
@@ -28,7 +24,7 @@ except ImportError:
         sip.setapi('QVariant', 2)
     from PyQt4.QtGui import *
     from PyQt4.QtCore import *
-"""
+
 from libs.combobox import ComboBox
 from libs.default_label_combobox import DefaultLabelComboBox
 from libs.resources import *
@@ -78,10 +74,10 @@ class WindowMixin(object):
 class MainWindow(QMainWindow, WindowMixin):
     FIT_WINDOW, FIT_WIDTH, MANUAL_ZOOM = list(range(3))
 
-    def __init__(self, default_filename=None, default_prefdef_class_file=None, default_save_dir=None):
+    def __init__(self, default_filename=None, default_prefdef_class_file=None, default_save_dir=None, _class_file_path=None):
         super(MainWindow, self).__init__()
         self.setWindowTitle(__appname__)
-
+        
         # Load setting in the main thread
         self.settings = Settings()
         self.settings.load()
@@ -486,6 +482,7 @@ class MainWindow(QMainWindow, WindowMixin):
         # Application state.
         self.image = QImage()
         self.file_path = ustr(default_filename)
+        self.class_file_path = _class_file_path
         self.last_open_dir = None
         self.recent_files = []
         self.max_recent = 7
@@ -560,10 +557,11 @@ class MainWindow(QMainWindow, WindowMixin):
         # Display cursor coordinates at the right of status bar
         self.label_coordinates = QLabel('')
         self.statusBar().addPermanentWidget(self.label_coordinates)
-
+        
+        _key = sys.argv[1]
         # open할 주소를 먼저 넣어줌
-        #self.default_open_dir = "..\\result_data\\images"
-        self.default_open_dir = "C:\\Users\\USER\\Desktop\\bicas\\AutoLabelling\\code\\data\\thermal-human\\edit\\images"
+        #
+        self.default_open_dir = f"../data/{_key}/edit/images"
         self.open_file_path = self.default_open_dir
 
         # Open Dir if default file
@@ -1386,10 +1384,9 @@ class MainWindow(QMainWindow, WindowMixin):
     def open_dir_dialog(self, _value=False, dir_path=None, silent=False):
         if not self.may_continue():
             return
-
+        _key = sys.argv[1]
         # 임시로 주소를 넣어서 라벨링txt 파일 저장 위치
-        #save_dir_path = "..\\result_data\\labels"
-        save_dir_path = "C:\\Users\\USER\\Desktop\\bicas\\AutoLabelling\\code\\data\\thermal-human\\edit\\labels"
+        save_dir_path = f"../data/{_key}/edit/labels"
         default_open_dir_path = dir_path
 
         # last_open_dir이 다시 바로 열리는 코딩 정리
@@ -1569,17 +1566,15 @@ class MainWindow(QMainWindow, WindowMixin):
 
     def delete_image(self):
         delete_path = self.file_path
-
+        _key = sys.argv[1]
         # image name -> filename 저장
         filename = os.path.basename(delete_path)
 
         if delete_path is not None:
-
+            
             # 지울 파일과 지울 파일 이름
-            #delete_labels = glob.glob(
-            #    "..\\result_data\\labels\\" + filename[:-4] + ".txt")
             delete_labels = glob.glob(
-                "C:\\Users\\USER\\Desktop\\bicas\\AutoLabelling\\code\\data\\thermal-human\\edit\\labels\\" + filename[:-4] + ".txt")
+                f"../data/{_key}/edit/labels" + filename[:-4] + ".txt")
             for delete_label in delete_labels:
                 # txt파일 같이 삭제
                 if os.path.exists(delete_label):
@@ -1700,9 +1695,11 @@ class MainWindow(QMainWindow, WindowMixin):
             return
         if os.path.isfile(txt_path) is False:
             return
-
+        tps = txt_path.split("/")
         self.set_format(FORMAT_YOLO)
         t_yolo_parse_reader = YoloReader(txt_path, self.image)
+        #t_yolo_parse_reader = YoloReader(txt_path, self.image)
+
         shapes = t_yolo_parse_reader.get_shapes()
         print(shapes)
         self.load_labels(shapes)
@@ -1772,19 +1769,20 @@ def get_main_app(argv=None):
 
     args.image_dir = args.image_dir and os.path.normpath(args.image_dir)
     args.class_file = args.class_file and os.path.normpath(args.class_file)
-    args.save_dir = args.save_dir and os.path.normpath(args.save_dir)
-
+    args.save_dir = args.image_dir and os.path.normpath(args.image_dir)
+    
     # Usage : labelImg.py image classFile saveDir
     win = MainWindow(args.image_dir,
                      args.class_file,
                      args.save_dir)
     win.show()
+    
     return app, win
 
 
 def main():
     """construct main app and run it"""
-    app, _win = get_main_app(sys.argv)
+    app, _win = get_main_app(sys.argv[:1])
     return app.exec_()
 
 
