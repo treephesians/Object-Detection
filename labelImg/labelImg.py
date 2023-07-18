@@ -1752,6 +1752,7 @@ def get_main_app(argv=None):
     Standard boilerplate Qt application code.
     Do everything but app.exec_() -- so that we can test the application in one thread
     """
+    _key = sys.argv[1]
     if not argv:
         argv = []
     app = QApplication(argv)
@@ -1762,7 +1763,7 @@ def get_main_app(argv=None):
     argparser.add_argument("image_dir", nargs="?")
     argparser.add_argument("class_file",
                            default=os.path.join(os.path.dirname(
-                               __file__), "data", "predefined_classes.txt"),
+                               __file__), "../", "data" , f"{_key}", "classes.txt"),
                            nargs="?")
     argparser.add_argument("save_dir", nargs="?")
     args = argparser.parse_args(argv[1:])

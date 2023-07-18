@@ -1,6 +1,7 @@
 import auto_detect as Detect
 import os
 import sys
+import shutil
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from check_labeling import check_labeling as CL
 from labelImg import edit_labeling as EL
@@ -15,7 +16,7 @@ if __name__ == "__main__":
         for lev in level:
             os.makedirs(f"./data/{dataset}/{lev}/images", exist_ok = True)
             os.makedirs(f"./data/{dataset}/{lev}/labels", exist_ok = True)
-
+        shutil.copy(f"./data/{dataset}/classes.txt", f"./data/{dataset}/edit/labels/classes.txt")
         weights = f"./data/{dataset}/{dataset}.pt"
         name = dataset
         # 이 값 위로는 pass 시키겠다. ex) 0.8 float 입력.
